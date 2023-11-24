@@ -1,6 +1,6 @@
-let pokemonType = {
+let pokemonBattle = {
 
-    pokemon:  function(name, level) {
+    attacks:  function(name, level) {
         this.name = name;
         this.level = level;
         this.health = level * 2;
@@ -75,17 +75,41 @@ let pokemonType = {
     }
 };
 
-let pikachu = new pokemonType.pokemon('Pikachu', 38);
-let geodude = new pokemonType.pokemon('Geodude', 46);
-let mewtwo = new pokemonType.pokemon('MewTwo', 90);
-let randomAttack = pokemonType.pokemon();
-let randomAbility = pokemonType.ability;
-const randomValue = [Math.floor(randomAbility.length * Math.random())]
+let pokemonRecords = {
+    name: [],
+    level: []
+};
 
-// To try type the follow after adding a pokemon let "pokemon-name" = new pokemonType.pokemon('Name', 'Level');
-
-// pokemon.ability[randomValue](target-pokemon);
+// let pikachu = new pokemonBattle.attacks('Pikachu', 10);
+// console.log(pikachu);
+// let geodude = new pokemonBattle.attacks('Geodude', 15);
+// console.log(geodude);
 
 alert('Welcome to my simple pokemon battle sims. I will still keep updating this program for practice.');
-alert('Please open console log window to start.')
-console.log('For now I only have 3 pokemons for battle. pikachu, geodude, and mewtwo.\nPlease type <pokemon-name>.ability[randomValue(<pokemon-name>) to start!') ;
+alert('Please open console log window to see the battles.')
+
+let randomAttack = pokemonBattle.attacks();
+let randomAbility = pokemonBattle.ability;
+const randomValue = [Math.floor(randomAbility.length * Math.random())]
+
+let newFriendlyPokemon = prompt('Enter new friendly Pokemon name:');
+let newFriendlyPokemonLevel = Number(prompt('Enter new friendly Pokemon level:'));
+let newEnemyPokemon = prompt('Enter new enemy Pokemon name');
+let newEnemyPokemonLevel = Number(prompt('Enter new enemy Pokemon level:'));
+
+pokemonRecords.name.push(newFriendlyPokemon);
+console.log(pokemonRecords.name);
+pokemonRecords.name.push(newEnemyPokemon);
+console.log(pokemonRecords.name);
+pokemonRecords.level.push(newFriendlyPokemonLevel);
+console.log(pokemonRecords.level);
+pokemonRecords.level.push(newEnemyPokemonLevel);
+console.log(pokemonRecords.level);
+
+let friendlyPokemon = new pokemonBattle.attacks(newFriendlyPokemon, newFriendlyPokemonLevel);
+let enemyPokemon = new pokemonBattle.attacks(newEnemyPokemon, newEnemyPokemonLevel);
+
+
+// Initialize battle
+
+friendlyPokemon.ability[randomValue](enemyPokemon);
