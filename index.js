@@ -98,13 +98,13 @@ let newEnemyPokemon = prompt('Enter new enemy Pokemon name');
 let newEnemyPokemonLevel = Number(prompt('Enter new enemy Pokemon level:'));
 
 pokemonRecords.name.push(newFriendlyPokemon);
-console.log(pokemonRecords.name);
+// console.log(pokemonRecords.name);
 pokemonRecords.name.push(newEnemyPokemon);
-console.log(pokemonRecords.name);
+// console.log(pokemonRecords.name);
 pokemonRecords.level.push(newFriendlyPokemonLevel);
-console.log(pokemonRecords.level);
+// console.log(pokemonRecords.level);
 pokemonRecords.level.push(newEnemyPokemonLevel);
-console.log(pokemonRecords.level);
+// console.log(pokemonRecords.level);
 
 let friendlyPokemon = new pokemonBattle.attacks(newFriendlyPokemon, newFriendlyPokemonLevel);
 let enemyPokemon = new pokemonBattle.attacks(newEnemyPokemon, newEnemyPokemonLevel);
@@ -113,3 +113,4 @@ let enemyPokemon = new pokemonBattle.attacks(newEnemyPokemon, newEnemyPokemonLev
 // Initialize battle
 
 friendlyPokemon.ability[randomValue](enemyPokemon);
+console.warn('use friendlyPokemon.ability[randomValue](enemyPokemon) to continue battle');
