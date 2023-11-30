@@ -22,9 +22,87 @@ let pokemonEnemy;
 let isPokemonFriendlyTurn =  true;
 let pokemonFriendlyHealth;
 let pokemonEnemyHealth;
+// NEW -----
+let pokemonFriendlySection = document.querySelector("#pokemonFriendlySection");
+let pokemonEnemySection = document.querySelector("#pokemonEnemySection");
 
-// Friendly
 
+// Fetch API - FRIENDLY
+
+const urlsFriendly = [
+    'https://pokeapi.co/api/v2/pokemon/pikachu',
+    'https://pokeapi.co/api/v2/pokemon/ditto',
+    'https://pokeapi.co/api/v2/pokemon/squirtle'
+]
+
+Promise.all(urlsFriendly.map((url)=>{
+    return fetch(url).then(resp=>resp.json())
+})).then(data=>showPokemonFriendly(data));
+
+const showPokemonFriendly = (pokemons) => {
+    let pokemonEntries = ''
+    pokemons.forEach((pokemon) => {
+        const {id, name, sprites, stats, types} = pokemon;
+        pokemonEntries = pokemonEntries +
+        `
+        <div class="d-flex">
+        <div class="card mx-5" style="width: 15rem;" id="pokemon-${id}">
+        <img src=${sprites.front_default} class="card-img-top img-fluid w-auto" alt="...">
+        <div class="card-body d-flex flex-column align-items-center">
+        <h2 class="card-title text-uppercase">${name}</h2>
+        <p class="card-text text-center">
+        ${stats[0].stat.name}: ${stats[0].base_stat} | 
+        ${stats[1].stat.name}: ${stats[1].base_stat} | 
+        type: ${types[0].type.name}
+        </p>
+        <a href="#" class="btn btn-primary">Choose Pokemon</a>
+        </div>
+        </div>
+        </div>
+        
+        `
+    })
+    pokemonFriendlySection.innerHTML = pokemonEntries;
+}
+
+// Fetch API - ENEMY
+
+const urlsEnemy= [
+    'https://pokeapi.co/api/v2/pokemon/charmeleon',
+    'https://pokeapi.co/api/v2/pokemon/bulbasaur',
+    'https://pokeapi.co/api/v2/pokemon/caterpie'
+]
+
+Promise.all(urlsEnemy.map((url)=>{
+    return fetch(url).then(resp => resp.json())
+})).then(data => showPokemonEnemy(data));
+
+const showPokemonEnemy = (pokemons) => {
+    let pokemonEntries = ''
+    pokemons.forEach((pokemon) => {
+        const {id, name, sprites, stats, types} = pokemon;
+        pokemonEntries = pokemonEntries +
+        `
+        <div class="d-flex">
+        <div class="card mx-5" style="width: 15rem;" id="pokemon-${id}">
+        <img src=${sprites.front_default} class="card-img-top img-fluid w-auto" alt="...">
+        <div class="card-body d-flex flex-column align-items-center">
+        <h2 class="card-title text-uppercase">${name}</h2>
+        <p class="card-text text-center">
+        ${stats[0].stat.name}: ${stats[0].base_stat} | 
+        ${stats[1].stat.name}: ${stats[1].base_stat} | 
+        type: ${types[0].type.name}
+        </p>
+        <a href="#" class="btn btn-primary">Choose Pokemon</a>
+        </div>
+        </div>
+        </div>
+        
+        `
+    })
+    pokemonEnemySection.innerHTML = pokemonEntries;
+}
+// ------------------
 pikachuPickFriendly.addEventListener('click', function(){
     pikachuPokemon = new Pokemon('Pikachu', 24);
     pokemonPick = pikachuPokemon;
@@ -112,7 +190,7 @@ function Pokemon(name, level){
             battleSection.innerHTML = '';
         }
     };
-
+    
     this.faint = function(name){
         battleSection.appendChild(isFainted);
         isFainted.textContent = this.name + ' has fainted!';
@@ -120,7 +198,7 @@ function Pokemon(name, level){
 };
 
 startBattleButton.addEventListener('click', function(){
-
+    
     if (pokemonFriendly !== undefined && pokemonEnemy !== undefined){
         if(isPokemonFriendlyTurn){
             pokemonFriendly.tackle(pokemonEnemy);
@@ -131,5 +209,5 @@ startBattleButton.addEventListener('click', function(){
     } else {
         alert('Please choose your pokemons!');
     }
-
+    
 });
