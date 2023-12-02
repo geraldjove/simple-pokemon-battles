@@ -1,135 +1,99 @@
-let pikachuPickFriendly = document.getElementById('pikachuFriendly');
-let geodudePickFriendly = document.getElementById('geodudeFriendly');
-let mewtwoPickFriendly = document.getElementById('mewtwoFriendly');
-let pikachuPickEnemy = document.getElementById('pikachuEnemy');
-let geodudePickEnemy = document.getElementById('geodudeEnemy');
-let mewtwoPickEnemy = document.getElementById('mewtwoEnemy');
-let battleLog = document.getElementById('battleLog');
-let battleSection = document.getElementById('battleSection');
-let startBattleButton = document.getElementById('startBattle');
-let newBattleHealth = document.createElement('h3');
-let newBattleAttack = document.createElement('h3');
-let newBattleResult = document.createElement('h1');
-let isFainted = document.createElement('h2');
-let pickOne = document.getElementById('pokemon1');
-let pickTwo = document.getElementById('pokemon2');
-let pikachuPokemon;
-let geodudePokemon;
-let mewtwoPokemon;
-let pokemonPick = null;
-let pokemonFriendly;
-let pokemonEnemy;
-let isPokemonFriendlyTurn =  true;
-let pokemonFriendlyHealth;
-let pokemonEnemyHealth;
+const pokemonFriendlySection = document.querySelector("#pokemonFriendlySection");
+const pokemonEnemySection = document.querySelector("#pokemonEnemySection");
+const battleSection = document.querySelector("#battleSection")
+const pickOne = document.querySelector("#pokemon1");
+const pickTwo = document.querySelector("#pokemon2");
+const startBattle = document.querySelector("#startBattle");
+let firstPick;
+let secondPick;
+let isPokemonTurn = true;
+let isPicked = true;
 
-// Friendly
+fetch('./pokemon.json')
+.then(res=>res.json())
+.then(data => PokemonCards(data));
 
-pikachuPickFriendly.addEventListener('click', function(){
-    pikachuPokemon = new Pokemon('Pikachu', 24);
-    pokemonPick = pikachuPokemon;
-    pokemonFriendlyHealth = pokemonPick.health;
-    pickOne.textContent = pokemonPick.name + ' level: ' + pokemonPick.level + ' attack: ' + pokemonPick.attack + ' health: ' + pokemonFriendlyHealth;
-    pickOne.value = pokemonPick.name;
-    pokemonFriendly = pokemonPick;
-    console.log(pickOne.value)
-    console.log(pikachuPokemon);
-})
-geodudePickFriendly.addEventListener('click', function(){
-    geodudePokemon = new Pokemon('Geodude', 28);
-    pokemonPick = geodudePokemon;
-    pokemonFriendlyHealth = pokemonPick.health;
-    pickOne.textContent = pokemonPick.name + ' level: ' + pokemonPick.level + ' attack: ' + pokemonPick.attack + ' health: ' + pokemonFriendlyHealth;
-    pickOne.value = pokemonPick.name;
-    pokemonFriendly = pokemonPick;
-    console.log(pickOne.value)
-    console.log(geodudePokemon);
-})
-mewtwoPickFriendly.addEventListener('click', function(){
-    mewtwoPokemon = new Pokemon('MewTwo', 84);
-    pokemonPick = mewtwoPokemon;
-    pokemonFriendlyHealth = pokemonPick.health;
-    pickOne.textContent = pokemonPick.name + ' level: ' + pokemonPick.level + ' attack: ' + pokemonPick.attack + ' health: ' + pokemonFriendlyHealth;
-    pickOne.value = pokemonPick.name;
-    pokemonFriendly = pokemonPick;
-    console.log(pickOne.value)
-    console.log(mewtwoPokemon);
-})
-
-// Enemy
-
-pikachuPickEnemy.addEventListener('click', function(){
-    pikachuPokemon = new Pokemon('Pikachu', 100);
-    pokemonPick = pikachuPokemon;
-    pokemonEnemyHealth = pokemonPick.health;
-    pickTwo.textContent = pokemonPick.name + ' level: ' + pokemonPick.level + ' attack: ' + pokemonPick.attack + ' health: ' + pokemonEnemyHealth;
-    pickTwo.value = pokemonPick.name;
-    pokemonEnemy = pokemonPick;
-    console.log(pickTwo.value)
-    console.log(pikachuPokemon);
-})
-geodudePickEnemy.addEventListener('click', function(){
-    geodudePokemon = new Pokemon('Geodude', 100);
-    pokemonPick = geodudePokemon;
-    pokemonEnemyHealth = pokemonPick.health;
-    pickTwo.textContent = pokemonPick.name + ' level: ' + pokemonPick.level + ' attack: ' + pokemonPick.attack + ' health: ' + pokemonEnemyHealth;
-    pickTwo.value = pokemonPick.name;
-    pokemonEnemy = pokemonPick;
-    console.log(pickTwo.value)
-    console.log(geodudePokemon);
-})
-mewtwoPickEnemy.addEventListener('click', function(){
-    mewtwoPokemon = new Pokemon('MewTwo', 100);
-    pokemonPick = mewtwoPokemon;
-    pokemonEnemyHealth = pokemonPick.health;
-    pickTwo.textContent = pokemonPick.name + ' level: ' + pokemonPick.level + ' attack: ' + pokemonPick.attack + ' health: ' + pokemonEnemyHealth;
-    pickTwo.value = pokemonPick.name;
-    pokemonEnemy = pokemonPick;
-    console.log(pickTwo.value)
-    console.log(mewtwoPokemon);
-})
-
-function Pokemon(name, level){
-    this.name = name;
-    this.level = Math.floor(Math.random() * level);
-    this.health = this.level * 2;
-    this.attack = this.level;
+const PokemonCards = (data) => {
+    let pokemonEntries = "";
     
-    this.tackle = function(target){
-        battleLog.textContent = this.name + ' has tackled ' + target.name;
-        target.health = target.health - Math.floor(Math.random() * this.attack);
-        battleSection.appendChild(newBattleAttack);
-        newBattleAttack.textContent = this.name + ' has inflicted ' + this.attack + ' damage.';
-        battleSection.appendChild(newBattleHealth);
-        newBattleHealth.textContent = target.name + ' has remaining ' + target.health + ' HP';
-        console.log(this.name + ' '+ this.health);
-        console.log(target.name + ' ' + target.health);
-        if(target.health <= 0 ){
-            target.faint();
-            battleSection.removeChild(newBattleHealth);
-            battleSection.appendChild(newBattleResult);
-            alert(newBattleResult.textContent = this.name + ' has won!');
-            battleSection.innerHTML = '';
-        }
-    };
-
-    this.faint = function(name){
-        battleSection.appendChild(isFainted);
-        isFainted.textContent = this.name + ' has fainted!';
-    }
+    data.map((pokemon)=>{
+        const {id, name, img, level, description} = pokemon;
+        pokemonEntries = pokemonEntries + `
+        <div class="card mx-2" style="width: 15rem;" id="pokemon-${id}">
+        <img src=${img} class="card-img-top img-fluid w-auto" alt="...">
+        <div class="card-body d-flex flex-column text-center align-items-center">
+        <h4 class="card-title text-uppercase">${name} LVL: ${level}</h4>
+        <p class="card-text text-center">
+        </p>
+        <a href="#battleSection" class="btn btn-primary" onclick="PickPokemon('${name}', ${level})">Choose Pokemon</a>
+        </div>
+        </div>
+        `
+    })
+    
+    pokemonFriendlySection.innerHTML = pokemonEntries;
+    pokemonEnemySection.innerHTML = pokemonEntries;
 };
 
-startBattleButton.addEventListener('click', function(){
-
-    if (pokemonFriendly !== undefined && pokemonEnemy !== undefined){
-        if(isPokemonFriendlyTurn){
-            pokemonFriendly.tackle(pokemonEnemy);
-        } else {
-            pokemonEnemy.tackle(pokemonFriendly);
-        }
-        isPokemonFriendlyTurn = !isPokemonFriendlyTurn;
+const PickPokemon = (name, level) => {
+    console.log(name)
+    name = new Pokemon(name, level);
+    if (isPicked){
+        pickOne.innerHTML = name.name;
+        isPicked = false;
+        firstPick = name;
+        console.log(name)
     } else {
-        alert('Please choose your pokemons!');
+        pickTwo.innerHTML = name.name;
+        isPicked = true;
+        secondPick = name;
+        console.log(name)
+    }
+    
+};
+
+class Pokemon{
+    constructor(name, level){
+        this.name = name;
+        this.level = level;
+        this.health = level * 2;
+        this.attack = level;
+
+        this.tackle = (target) => {
+            target.health = target.health - this.attack;
+            console.log(`${this.name} tackled ${target.name}`)
+            console.log(`${target.name} lost ${target.health}`);
+            battleSection.innerHTML = `
+            <h3>${this.name} tackled ${target.name}</h3>
+            <h3>${target.name} lost ${target.health} HP</h3>
+            `
+            if (target.health < 0){
+                battleSection.innerHTML = `
+                <h1>${this.name} WINS!</h1>
+                `
+               target.faint();
+            }
+        };
+
+        this.faint = (name) => {
+            alert(`${this.name} has fainted`)
+        }
+    };
+};
+
+startBattle.addEventListener('click', () => {
+    if (isPokemonTurn){
+        pickOne.innerHTML = 'Turn: ' + firstPick.name;
+        pickTwo.innerHTML = secondPick.name;
+        firstPick.tackle(secondPick);
+        isPokemonTurn = false;
+    } else {
+        pickOne.innerHTML = firstPick.name;
+        pickTwo.innerHTML = 'Turn: ' + secondPick.name;
+        secondPick.tackle(firstPick);
+        isPokemonTurn = true;
     }
 
 });
+
+
