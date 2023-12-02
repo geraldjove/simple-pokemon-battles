@@ -9,30 +9,24 @@
 </head>
 <body>
     <header class="container-fluid">
-        <div class="d-flex flex-column align-items-center mt-5">
-            <h1>Welcome to the Simple Pokemon Battles App!</h1>
-            <h5>This is just a simple project app made to use as a portfolio.</h5>
+        <div class="container-fluid text-center">
+            <h1 class="col-12">Welcome to the Simple Pokemon Battles App!</h1>
+            <h5 class="col-12">This is just a simple project app made to use as a portfolio.</h5>
         </div>
     </header>
     <main class="container-fluid">
-        <section class="d-flex flex-column align-items-center mt-5">
-            <div>
+        <section class="container-fluid mt-5">
+            <div class="d-flex col-12 justify-content-center mb-5">
                 <h4>Please Choose a Friendly Pokemon</h4>
             </div>
-            <div class="d-flex" id="pokemonFriendlySection">
-                <button class="mx-3" id="pikachuFriendly">Pikachu</button>
-                <button class="mx-3" id="geodudeFriendly">Geodude</button>
-                <button class="mx-3" id="mewtwoFriendly">MewTWo</button>
+            <div class="d-flex col-12 justify-content-center" id="pokemonFriendlySection">
             </div>
         </section>
-        <section class="d-flex flex-column align-items-center mt-5">
-            <div>
+        <section class="container-fluid">
+            <div class="d-flex col-12 justify-content-center mt-5 mb-5">
                 <h4>Please Choose an Enemy Pokemon</h4>
             </div>
-            <div class="d-flex" id="pokemonEnemySection">
-                <button class="mx-3" id="pikachuEnemy">Pikachu</button>
-                <button class="mx-3" id="geodudeEnemy">Geodude</button>
-                <button class="mx-3" id="mewtwoEnemy">MewTWo</button>
+            <div class="d-flex col-12 justify-content-center" id="pokemonEnemySection">
             </div>
         </section>
         <section class="d-flex flex-column align-items-center mt-5">
@@ -49,7 +43,6 @@
         <section class="d-flex flex-column justify-content-center align-items-center mt-5" >
                 <h1>--Battle Log--</h1>
                 <div id="battleSection" class="text-center">
-                    <h3 id="battleLog"></h3>
                 </div>
         </section>
     </main>
